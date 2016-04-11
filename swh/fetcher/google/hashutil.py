@@ -27,7 +27,8 @@ def crc32c_hash(fobj):
 
 
 def crc32c_from_b64(crc32c_b64):
-    return struct.unpack('>L', base64.b64decode(crc32c_b64))[0]
+    res = struct.unpack('>L', base64.b64decode(crc32c_b64))
+    return res[0]
 
 
 def md5_from_b64(md5_b64):
@@ -47,27 +48,40 @@ def md5_hash(fobj):
 
 if __name__ == '__main__':
     import sys
-    filename = sys.argv[1]
-    filename_meta = filename + '.json'
     import json
 
-    with open(filename_meta, 'r') as f:
-        data = json.loads(f.read())
+    def check(filename):
+        filename_meta = filename + '.json'
 
-    expected_md5 = md5_from_b64(data['md5Hash'])
-    expected_crc32c = crc32c_from_b64(data['crc32c'])
+        with open(filename_meta, 'r') as f:
+            data = json.loads(f.read())
 
-    with open(filename, 'rb') as f:
-        md5_h = md5_hash(f)
-        print('Expected md5: %s - Computed md5: %s' % (
-            expected_md5, md5_h))
-        if md5_h != expected_md5:
-            print('md5 does not match')
+        expected_md5 = md5_from_b64(data['md5Hash'])
+        expected_crc32c = crc32c_from_b64(data['crc32c'])
 
-        f.seek(0)
+        res = {
+            'filename': os.path.basename(filename),
+            'expected_md5': expected_md5,
+            'expected_crc32c': expected_crc32c
+        }
+        with open(filename, 'rb') as f:
+            md5_h = md5_hash(f)
+            res['md5'] = (md5_h == expected_md5, md5_h)
 
-        crc32c_h = crc32c_hash(f)
-        print('expected_crc32c: %s - Computed crc32c: %s' % (
-            expected_crc32c, crc32c_h))
-        if expected_crc32c != crc32c_h:
-            print('crc32c does not match.')
+            f.seek(0)
+
+            crc32c_h = crc32c_hash(f)
+            res['crc32c'] = (crc32c_h == expected_crc32c, crc32c_h)
+
+        return res
+
+
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+        res = check(filename)
+        print(res)
+    else:
+        for filename in sys.stdin:
+            filename = filename.strip()
+            res = check(filename)
+            print(res)
