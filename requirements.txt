@@ -3,5 +3,7 @@
 # dependency lines, see https://pip.readthedocs.org/en/1.1/requirements.html
 vcversioner
 click
+requests
 swh.model
+swh.core
 crcmode
