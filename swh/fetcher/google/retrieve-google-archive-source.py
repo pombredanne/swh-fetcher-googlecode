@@ -43,6 +43,9 @@ if __name__ == '__main__':
         parent_dir, filename, url_meta, url_content = transform(archive_gs)
         os.makedirs(parent_dir, exist_ok=True)
 
+        project_name = os.path.basename(parent_dir)
+        filename = project_name + '-' + filename + '.json'
+
         try:
             r = requests.get(url_meta)
         except:
@@ -50,8 +53,7 @@ if __name__ == '__main__':
         else:
             print(r.json()['size'], filename)
 
-        # filepath = os.path.join(parent_dir, filename)
-        # with open(filepath, 'wb') as f:
-        #     f.write(b'')
-
-        # print(url_meta)
+            # we store the project metadata
+            filepath = os.path.join(parent_dir, filename)
+            with open(filepath, 'wb') as f:
+                f.write(r.text.encode('utf-8'))
