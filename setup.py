@@ -16,12 +16,12 @@ def parse_requirements():
 # Edit this part to match your module
 # full sample: https://forge.softwareheritage.org/diffusion/DCORE/browse/master/setup.py
 setup(
-    name='swh.<module-name>',
-    description='Software Heritage <Module\'s intent>',
+    name='swh.fetcher.google',
+    description='Software Heritage Google Archive Source Fetcher',
     author='Software Heritage developers',
     author_email='swh-devel@inria.fr',
-    url='https://forge.softwareheritage.org/diffusion/<module-git-code>',
-    packages=[],  # packages's modules
+    url='https://forge.softwareheritage.org/diffusion/DLDFG',
+    packages=['swh.fetcher.google'],  # packages's modules
     scripts=[],   # scripts to package
     install_requires=parse_requirements(),
     setup_requires=['vcversioner'],
