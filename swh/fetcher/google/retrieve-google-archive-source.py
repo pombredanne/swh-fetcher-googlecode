@@ -8,39 +8,14 @@ import sys
 import os
 import requests
 
-
-def compute_destination_folder(path):
-    """Given a path, compute a destination folder to which downloads the
-       remote files.
-
-    """
-    parent_dir = os.path.dirname(path)
-    project_name = os.path.basename(parent_dir)
-    parent_ddir = os.path.dirname(parent_dir)
-    return os.path.join(parent_ddir, project_name[0], project_name)
-
-
-prefix_url_api = 'https://www.googleapis.com/storage/v1/b/google-code-archive-source/o'
-
-
-def transform(url_gs):
-    """Transform input gs:// url into:
-        - destination folder
-        - filename
-        - metadata url to fetch
-        - actual content to fetch
-    """
-    url_gs = url_gs.replace('gs://google-code-archive-source/', '')
-    filename = os.path.basename(url_gs)
-    url_meta = '%s/%s' % (prefix_url_api, url_gs.replace('/', '%2F'))
-    parent_dir = compute_destination_folder(url_gs)
-    return parent_dir, filename, url_meta, '%s?alt=media' % url_meta
+from swh.fetcher.google import utils
 
 
 if __name__ == '__main__':
     for archive in sys.stdin:
         archive_gs = archive.rstrip()
-        parent_dir, filename, url_meta, url_content = transform(archive_gs)
+        parent_dir, filename, url_meta, url_content = utils.transform(
+            archive_gs)
         os.makedirs(parent_dir, exist_ok=True)
 
         project_name = os.path.basename(parent_dir)
