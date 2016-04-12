@@ -145,7 +145,20 @@ class SWHGoogleFetcher(config.SWHConfig):
         if not meta:
             raise ValueError('Fail to download metadata, stop.')
 
-        # Second retrieve the actual content
+        # check existence of the file
+        if os.path.exists(filepath):
+            # it already exists, check it's ok
+            try:
+                self.check_source(meta, filepath)
+            except ValueError as e:  # corrupted, remove it
+                if os.path.exists(filepath):
+                    self.log.error('Clean corrupted file %s' % filepath)
+                    os.remove(filepath)
+            else:  # it's ok, we are done!
+                self.log.info('Archive %s already fetched!' % archive_gs)
+                return
+
+        # the file does not exist, we retrieve it
         self.retrieve_source(meta['mediaLink'], filepath)
 
         # Third - Check the retrieved source
