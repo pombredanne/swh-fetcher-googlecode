@@ -14,12 +14,12 @@ def parse_requirements():
 
 
 setup(
-    name='swh.fetcher.google',
+    name='swh.fetcher.googlecode',
     description='Software Heritage Googlecode Source Fetcher',
     author='Software Heritage developers',
     author_email='swh-devel@inria.fr',
     url='https://forge.softwareheritage.org/diffusion/61',
-    packages=['swh.fetcher.google'],  # packages's modules
+    packages=['swh.fetcher.googlecode'],  # packages's modules
     scripts=[],   # scripts to package
     install_requires=parse_requirements(),
     setup_requires=['vcversioner'],
