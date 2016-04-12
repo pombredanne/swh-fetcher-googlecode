@@ -84,9 +84,14 @@ class SWHGoogleFetcher(config.SWHConfig):
                 self.log.error(msg)
                 raise ValueError(msg, e)
             else:
-                with open(filepath, 'wb') as f:
-                    for chunk in r.iter_content(hashutil.HASH_BLOCK_SIZE):
-                        f.write(chunk)
+                if not r.ok:
+                    msg = 'Problem when fetching file %s.' % url
+                    self.log.error(msg)
+                    raise ValueError(msg)
+                else:
+                    with open(filepath, 'wb') as f:
+                        for chunk in r.iter_content(hashutil.HASH_BLOCK_SIZE):
+                            f.write(chunk)
 
     def check_source(self, meta, filepath):
         expected = {
@@ -167,7 +172,10 @@ class SWHGoogleFetcher(config.SWHConfig):
         errors = self.check_source(meta, filepath)
         if errors:
             if os.path.exists(filepath):
-                self.log.error('Clean corrupted file %s' % filepath)
-                os.remove(filepath)
+                filepath_corrupted = filepath + '.corrupted'
+                self.log.error('Rename corrupted file %s to %s' % (
+                    os.path.basename(filepath),
+                    os.path.basename(filepath_corrupted)))
+                os.rename(filepath, filepath_corrupted)
         else:
             self.log.info('Archive %s fetched.' % archive_gs)
