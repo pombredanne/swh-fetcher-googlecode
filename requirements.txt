@@ -4,6 +4,7 @@
 vcversioner
 click
 requests
+swh.scheduler
 swh.model
 swh.core
 crcmode
