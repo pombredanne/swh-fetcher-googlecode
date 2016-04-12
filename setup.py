@@ -13,14 +13,12 @@ def parse_requirements():
     return requirements
 
 
-# Edit this part to match your module
-# full sample: https://forge.softwareheritage.org/diffusion/DCORE/browse/master/setup.py
 setup(
     name='swh.fetcher.google',
-    description='Software Heritage Google Archive Source Fetcher',
+    description='Software Heritage Googlecode Source Fetcher',
     author='Software Heritage developers',
     author_email='swh-devel@inria.fr',
-    url='https://forge.softwareheritage.org/diffusion/DLDFG',
+    url='https://forge.softwareheritage.org/diffusion/61',
     packages=['swh.fetcher.google'],  # packages's modules
     scripts=[],   # scripts to package
     install_requires=parse_requirements(),

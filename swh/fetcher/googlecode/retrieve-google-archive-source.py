@@ -8,7 +8,7 @@ import sys
 import os
 import requests
 
-from swh.fetcher.google import utils
+from . import utils
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-Source: python3-swh.fetcher.google
+Source: python3-swh.fetcher.googlecode
 Maintainer: Software Heritage developers <swh-devel@inria.fr>
 Section: python
 Priority: optional
@@ -14,9 +14,9 @@ Build-Depends: debhelper (>= 9),
                python3-requests,
                python3-vcversioner
 Standards-Version: 3.9.6
-Homepage: https://forge.softwareheritage.org/diffusion/DLDFG/
+Homepage: https://forge.softwareheritage.org/diffusion/61/
 
-Package: python3-swh.fetcher.google
+Package: python3-swh.fetcher.googlecode
 Architecture: all
 Depends: ${misc:Depends}, ${python3:Depends}
 Description: Software Heritage <module-description>
