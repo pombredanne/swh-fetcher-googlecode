@@ -1,4 +1,4 @@
-Source: python3-swh.fetcher.googlecode
+Source: swh-fetcher-googlecode
 Maintainer: Software Heritage developers <swh-devel@inria.fr>
 Section: python
 Priority: optional
@@ -19,5 +19,8 @@ Homepage: https://forge.softwareheritage.org/diffusion/61/
 
 Package: python3-swh.fetcher.googlecode
 Architecture: all
-Depends: ${misc:Depends}, ${python3:Depends}
+Depends: python3-swh.core,
+         python3-swh.model,
+         python3-swh.scheduler,
+         ${misc:Depends}, ${python3:Depends}
 Description: Software Heritage <module-description>
