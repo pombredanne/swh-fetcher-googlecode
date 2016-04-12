@@ -6,7 +6,7 @@
 import click
 import sys
 
-task_name = 'swh.fetcher.google.tasks.SWHGoogleFetcherTask'
+task_name = 'swh.fetcher.googlecode.tasks.SWHGoogleFetcherTask'
 
 
 @click.command()
@@ -16,7 +16,7 @@ task_name = 'swh.fetcher.google.tasks.SWHGoogleFetcherTask'
               help="Root destination to write the data.")
 def produce(gs_url, destination_rootpath='/srv/storage/space/mirrors/code.google.com/sources/'):
     from swh.scheduler.celery_backend.config import app
-    from swh.fetcher.google import tasks  # noqa
+    from swh.fetcher.googlecode import tasks  # noqa
 
     print('%s sent for download and checks.' % gs_url)
 
