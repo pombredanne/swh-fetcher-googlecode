@@ -1,0 +1,57 @@
+swh-fetcher-googlecode
+======================
+
+This fetcher does:
+- parse a gs:// url and transforms it according to the email's rule (see below)
+- deriving the file's url as metadata (mediaLink, length, crc32c, md5Hash, etc...)
+- writes on disk such metadata file
+- deriving the actual content from the mediaLink entry (exactly the url described higher)
+- writes on disk such content
+- checks the content file's metadata (crc32c, md5, length) match the one described in file metadata
+- flag as corrupted the file if it does not
+
+
+```
+Date: Fri, 8 Apr 2016 13:25:41 -0700
+From: Chris Smith <chrsmith@google.com>
+To: Roberto Di Cosmo <roberto@dicosmo.org>
+Cc: Stefano Zacchiroli <zack@upsilon.cc>
+Subject: Re: Archiving the sources from Google Code into Software Heritage
+Message-ID: <CAH3JUH975Yt1ts=QNCqBX1hP1y2EFmMBzda0Ro-bcL3_vwX6Hg@mail.gmail.com>
+
+You can get the list of all files stored in Google Cloud Storage, which
+power the Google Code Archive here:
+
+https://storage.googleapis.com/google-code-archive/google-code-archive.txt.zip
+https://storage.googleapis.com/google-code-archive/google-code-archive-source.txt.zip
+https://storage.googleapis.com/google-code-archive/google-code-archive-downloads.txt.zip
+
+Just download and unzip the files. They contain all the Google Cloud
+Storage object names in each bucket. From there you will need to just
+download the actual files via a basic conversion. For exmaple, with Google
+Cloud Storage URL gs://google-code-archive/v2/code.google/hg4j/project.json,
+you can get the file's contents by URL-escaping the string and adding it to
+googleapis.com. e.g.
+https://www.googleapis.com/storage/v1/
+b/google-code-archive/o/v2%2Fcode.google.com%2Fhg4j%2Fproject.json?alt=media.
+The "?alt=media" part gets the object's contents, not the metadata.
+
+You probably only care about the google-code-archive-source bucket, since
+that is where we contain tarballs of git, hg, and the new svn dumps. But if
+you were interested in poking around the project metadata (e.g. issues) the
+schema is here <http://As for how to make sense of the data, you can see
+the Archive's schema here.>.
+
+If you run into any troubles let me know. I'll be able to look into any
+missing or corrupt repositories for the next couple months. After that time
+we will shut down the Google Code DVCS backends, and only the Google Code
+Archive snapshot will remain. (So you resurrecting these projects might
+ferret out any problems with my data.)
+
+Cheers,
+-Chris
+```
+
+Note:
+
+It only what's described only for source archive.
