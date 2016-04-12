@@ -95,12 +95,13 @@ class SWHGoogleFetcher(config.SWHConfig):
             'size': int(meta['size'])
         }
 
+        error = False
         actual_size = os.path.getsize(filepath)
         if actual_size != expected['size']:
             msg = 'Bad size. Expected: %s. Got: %s' % (
                 expected['size'], actual_size)
             self.log.error(msg)
-            raise ValueError(msg)
+            error = True
 
         self.log.debug('Checking %s\' raw data checksums and size.' %
                        filepath)
@@ -111,7 +112,7 @@ class SWHGoogleFetcher(config.SWHConfig):
                 msg = 'Bad md5 signature. Expected: %s. Got: %s' % (
                     expected['md5'], md5_h)
                 self.log.error(msg)
-                raise ValueError(msg)
+                error = True
 
             f.seek(0)
 
@@ -120,7 +121,9 @@ class SWHGoogleFetcher(config.SWHConfig):
                 msg = 'Bad crc32c signature. Expected: %s. Got: %s' % (
                     expected['crc32c'], crc32c_h)
                 self.log.error(msg)
-                raise ValueError(msg)
+                error = True
+
+        return error
 
     def process(self, archive_gs, destination_rootpath):
         self.log.info('Fetch %s\'s metadata' % archive_gs)
@@ -148,26 +151,23 @@ class SWHGoogleFetcher(config.SWHConfig):
         # check existence of the file
         if os.path.exists(filepath):
             # it already exists, check it's ok
-            try:
-                self.check_source(meta, filepath)
-            except ValueError as e:  # corrupted, remove it
-                if os.path.exists(filepath):
-                    self.log.error('Clean corrupted file %s' % filepath)
-                    os.remove(filepath)
-            else:  # it's ok, we are done!
-                self.log.info('Archive %s already fetched!' % archive_gs)
-                return
+                errors = self.check_source(meta, filepath)
+                if errors:
+                    if os.path.exists(filepath):
+                        self.log.error('Clean corrupted file %s' % filepath)
+                        os.remove(filepath)
+                else:  # it's ok, we are done!
+                    self.log.info('Archive %s already fetched!' % archive_gs)
+                    return
 
         # the file does not exist, we retrieve it
         self.retrieve_source(meta['mediaLink'], filepath)
 
         # Third - Check the retrieved source
-        try:
-            self.check_source(meta, filepath)
-        except ValueError as e:
+        errors = self.check_source(meta, filepath)
+        if errors:
             if os.path.exists(filepath):
                 self.log.error('Clean corrupted file %s' % filepath)
                 os.remove(filepath)
-            raise e
         else:
             self.log.info('Archive %s fetched.' % archive_gs)
