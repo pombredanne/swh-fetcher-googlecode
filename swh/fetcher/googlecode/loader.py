@@ -13,27 +13,6 @@ from .utils import transform
 from .hashutil import crc32c_hash, md5_hash, md5_from_b64, crc32c_from_b64
 
 
-# sample meta:
-# {
-#  "kind": "storage#object",                                                                                                                                                            # noqa
-#  "id": "google-code-archive-source/v2/code.google.com/hg4j/source-archive.zip/1455746620701000",                                                                                      # noqa
-#  "selfLink": "https://www.googleapis.com/storage/v1/b/google-code-archive-source/o/v2%2Fcode.google.com%2Fhg4j%2Fsource-archive.zip",                                                 # noqa
-#  "name": "v2/code.google.com/hg4j/source-archive.zip",                                                                                                                                # noqa
-#  "bucket": "google-code-archive-source",                                                                                                                                              # noqa
-#  "generation": "1455746620701000",                                                                                                                                                    # noqa
-#  "metageneration": "1",                                                                                                                                                               # noqa
-#  "contentType": "application/octet-stream",                                                                                                                                           # noqa
-#  "timeCreated": "2016-02-17T22:03:40.698Z",                                                                                                                                           # noqa
-#  "updated": "2016-02-17T22:03:40.698Z",                                                                                                                                               # noqa
-#  "storageClass": "NEARLINE",                                                                                                                                                          # noqa
-#  "size": "4655405",                                                                                                                                                                   # noqa
-#  "md5Hash": "FaIRjuSDe4v51H1+sRuggQ==",                                                                                                                                               # noqa
-#  "mediaLink": "https://www.googleapis.com/download/storage/v1/b/google-code-archive-source/o/v2%2Fcode.google.com%2Fhg4j%2Fsource-archive.zip?generation=1455746620701000&alt=media", # noqa
-#  "crc32c": "PNKIqA==",                                                                                                                                                                # noqa
-#  "etag": "CMjy1uHm/8oCEAE="                                                                                                                                                           # noqa
-# }
-
-
 class SWHGoogleFetcher(config.SWHConfig):
     """A swh data fetcher loader.
 

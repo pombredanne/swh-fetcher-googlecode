@@ -55,3 +55,27 @@ Cheers,
 Note:
 
 It only what's described only for source archive.
+
+
+# Metadata sample:
+
+```
+{
+  "kind": "storage#object",
+  "id": "google-code-archive-source/v2/code.google.com/hg4j/source-archive.zip/1455746620701000",
+  "selfLink": "https://www.googleapis.com/storage/v1/b/google-code-archive-source/o/v2%2Fcode.google.com%2Fhg4j%2Fsource-archive.zip",
+  "name": "v2/code.google.com/hg4j/source-archive.zip",
+  "bucket": "google-code-archive-source",
+  "generation": "1455746620701000",
+  "metageneration": "1",
+  "contentType": "application/octet-stream",
+  "timeCreated": "2016-02-17T22:03:40.698Z",
+  "updated": "2016-02-17T22:03:40.698Z",
+  "storageClass": "NEARLINE",
+  "size": "4655405",
+  "md5Hash": "FaIRjuSDe4v51H1+sRuggQ==",
+  "mediaLink": "https://www.googleapis.com/download/storage/v1/b/google-code-archive-source/o/v2%2Fcode.google.com%2Fhg4j%2Fsource-archive.zip?generation=1455746620701000&alt=media",
+  "crc32c": "PNKIqA==",
+  "etag": "CMjy1uHm/8oCEAE="
+}
+```
