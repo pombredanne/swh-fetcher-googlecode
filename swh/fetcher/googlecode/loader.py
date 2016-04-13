@@ -3,6 +3,7 @@
 # License: GNU General Public License version 3, or any later version
 # See top-level LICENSE file for more information
 
+import hashlib
 import logging
 import os
 import requests
@@ -34,7 +35,8 @@ class SWHGoogleFetcher(config.SWHConfig):
 
     def load_meta(self, filepath):
         """Try and load the metadata from the given filepath.
-           It is assumed that the code is called after checking the file exists.
+           It is assumed that the code is called after checking the file
+           exists.
 
         """
         import json
@@ -65,7 +67,24 @@ class SWHGoogleFetcher(config.SWHConfig):
 
         return meta
 
-    def retrieve_source(self, url, filepath):
+    def write_and_check(self, filepath, response, md5h):
+        """Write the response's stream content to filepath.
+           Compute the hash at the same time and ensure the md5h is the same.
+
+           Returns:
+               True if everything is ok and the md5 computed match the content.
+               False otherwise
+        """
+        h = hashlib.md5()
+        with open(filepath, 'wb') as f:
+            for chunk in response.iter_content(hashutil.HASH_BLOCK_SIZE):
+                f.write(chunk)
+                h.update(chunk)
+
+        return md5h == h.digest()
+
+    def retrieve_source(self, meta, filepath):
+        url = meta['mediaLink']
         if not os.path.exists(filepath):
             self.log.debug('Fetching %s\' raw data.' % url)
             try:
@@ -79,37 +98,35 @@ class SWHGoogleFetcher(config.SWHConfig):
                     msg = 'Problem when fetching file %s.' % url
                     self.log.error(msg)
                     raise ValueError(msg)
-                else:
-                    with open(filepath, 'wb') as f:
-                        for chunk in r.iter_content(hashutil.HASH_BLOCK_SIZE):
-                            f.write(chunk)
 
-    def check_source(self, meta, filepath):
-        expected = {
-            'md5': md5_from_b64(meta['md5Hash']),
-            'size': int(meta['size'])
-        }
+                return self.write_and_check(filepath,
+                                            r,
+                                            md5_from_b64(meta['md5Hash']))
 
-        error = False
+    def check_source_ok(self, meta, filepath, with_md5=False):
+        expected_size = int(meta['size'])
+        ok = True
         actual_size = os.path.getsize(filepath)
-        if actual_size != expected['size']:
+        if actual_size != expected_size:
             msg = 'Bad size. Expected: %s. Got: %s' % (
-                expected['size'], actual_size)
+                expected_size, actual_size)
             self.log.error(msg)
-            error = True
+            ok = False
 
-        self.log.debug('Checking %s\' raw data checksums and size.' %
-                       filepath)
-        # Last, check the metadata are ok
-        with open(filepath, 'rb') as f:
-            md5_h = md5_hash(f)
-            if md5_h != expected['md5']:
-                msg = 'Bad md5 signature. Expected: %s. Got: %s' % (
-                    expected['md5'], md5_h)
-                self.log.error(msg)
-                error = True
+        if with_md5:
+            expected_md5 = md5_from_b64(meta['md5Hash'])
+            self.log.debug('Checking %s\' raw data checksums and size.' %
+                           filepath)
+            # Last, check the metadata are ok
+            with open(filepath, 'rb') as f:
+                md5_h = md5_hash(f)
+                if md5_h != expected_md5:
+                    msg = 'Bad md5 signature. Expected: %s. Got: %s' % (
+                        expected_md5, md5_h)
+                    self.log.error(msg)
+                    ok = False
 
-        return error
+        return ok
 
     def process(self, archive_gs, destination_rootpath):
         self.log.info('Fetch %s\'s metadata' % archive_gs)
@@ -137,26 +154,26 @@ class SWHGoogleFetcher(config.SWHConfig):
         # check existence of the file
         if os.path.exists(filepath):
             # it already exists, check it's ok
-                errors = self.check_source(meta, filepath)
-                if errors:
-                    if os.path.exists(filepath):
-                        self.log.error('Clean corrupted file %s' % filepath)
-                        os.remove(filepath)
-                else:  # it's ok, we are done!
-                    self.log.info('Archive %s already fetched!' % archive_gs)
-                    return
+            checks_ok = self.check_source_ok(meta, filepath, with_md5=True)
+            if checks_ok:  # it's ok, we are done
+                self.log.info('Archive %s already fetched!' % archive_gs)
+                return
+
+            self.log.error('Clean corrupted file %s' % filepath)
+            os.remove(filepath)
 
         # the file does not exist, we retrieve it
-        self.retrieve_source(meta['mediaLink'], filepath)
+        checks_ok = self.retrieve_source(meta, filepath)
 
         # Third - Check the retrieved source
-        errors = self.check_source(meta, filepath)
-        if errors:
-            if os.path.exists(filepath):
-                filepath_corrupted = filepath + '.corrupted'
-                self.log.error('Rename corrupted file %s to %s' % (
-                    os.path.basename(filepath),
-                    os.path.basename(filepath_corrupted)))
-                os.rename(filepath, filepath_corrupted)
-        else:
+        if checks_ok and self.check_source_ok(meta, filepath):
             self.log.info('Archive %s fetched.' % archive_gs)
+            return
+
+        # Trouble, we rename the corrupted file
+        if os.path.exists(filepath):
+            filepath_corrupted = filepath + '.corrupted'
+            self.log.error('Rename corrupted file %s to %s' % (
+                os.path.basename(filepath),
+                os.path.basename(filepath_corrupted)))
+            os.rename(filepath, filepath_corrupted)
