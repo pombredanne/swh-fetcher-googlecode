@@ -132,8 +132,12 @@ class SWHGoogleFetcher(config.SWHConfig):
         self.log.info('Fetch %s\'s metadata' % archive_gs)
 
         # First retrieve the archive gs's metadata
-        parent_dir, filename, url_meta, url_content = transform(
-            archive_gs)
+        data = transform(archive_gs)
+
+        parent_dir = data['parent_dir']
+        filename = data['filename']
+        url_project_archive_meta = data['url_project_archive_meta']
+        url_project_meta = data['url_project_meta']
 
         parent_dir = os.path.join(destination_rootpath, parent_dir)
 
@@ -146,10 +150,17 @@ class SWHGoogleFetcher(config.SWHConfig):
 
         filepath = os.path.join(parent_dir, filename)
         filepath_meta = os.path.join(parent_dir, filename_meta)
+        filepath_project_meta = os.path.join(parent_dir, 'project.json')
 
-        meta = self.retrieve_source_meta(url_meta, filepath_meta)
+        meta = self.retrieve_source_meta(url_project_archive_meta,
+                                         filepath_meta)
         if not meta:
-            raise ValueError('Fail to download metadata, stop.')
+            raise ValueError('Fail to download archive source metadata, stop.')
+
+        project_meta = self.retrieve_source_meta(url_project_meta,
+                                  filepath_project_meta)
+        if not project_meta:
+            raise ValueError('Fail to download project metadata, stop.')
 
         # check existence of the file
         if os.path.exists(filepath):
