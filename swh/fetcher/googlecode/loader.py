@@ -32,24 +32,36 @@ class SWHGoogleFetcher(config.SWHConfig):
         l = logging.getLogger('requests.packages.urllib3.connectionpool')
         l.setLevel(logging.WARN)
 
+    def load_meta(self, filepath):
+        """Try and load the metadata from the given filepath.
+           It is assumed that the code is called after checking the file exists.
+
+        """
+        import json
+        try:
+            with open(filepath, 'r') as f:
+                return json.loads(f.read())
+        except:
+            return None
+
     def retrieve_source_meta(self, url_meta, filepath_meta):
         if os.path.exists(filepath_meta):
-            import json
-            with open(filepath_meta, 'r') as f:
-                meta = json.loads(f.read())
-        else:
-            meta = {}
-            try:
-                r = requests.get(url_meta)
-            except Exception as e:
-                msg = 'Problem when fetching metadata %s.' % url_meta
-                self.log.error(msg)
-                raise ValueError(msg, e)
-            else:
-                meta = r.json()
+            meta = self.load_meta(filepath_meta)
+            if meta:  # some meta could be corrupted, so we try to load them
+                return meta
+            # and if we fail, we try to fetch them again
 
-                with open(filepath_meta, 'w') as f:
-                    f.write(r.text)
+        meta = {}
+        try:
+            r = requests.get(url_meta)
+        except Exception as e:
+            msg = 'Problem when fetching metadata %s.' % url_meta
+            self.log.error(msg)
+            raise ValueError(msg, e)
+        else:
+            meta = r.json()
+            with open(filepath_meta, 'w') as f:
+                f.write(r.text)
 
         return meta
 
