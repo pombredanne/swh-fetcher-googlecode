@@ -158,7 +158,7 @@ class SWHGoogleFetcher(config.SWHConfig):
             raise ValueError('Fail to download archive source metadata, stop.')
 
         project_meta = self.retrieve_source_meta(url_project_meta,
-                                  filepath_project_meta)
+                                                 filepath_project_meta)
         if not project_meta:
             raise ValueError('Fail to download project metadata, stop.')
 
