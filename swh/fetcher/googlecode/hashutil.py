@@ -75,7 +75,6 @@ if __name__ == '__main__':
 
         return res
 
-
     if len(sys.argv) == 2:
         filename = sys.argv[1]
         res = check(filename)

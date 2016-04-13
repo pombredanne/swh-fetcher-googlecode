@@ -14,7 +14,7 @@ task_name = 'swh.fetcher.googlecode.tasks.SWHGoogleFetcherTask'
               help="gs repository's remote url.")
 @click.option('--destination-rootpath',
               help="Root destination to write the data.")
-def produce(gs_url, destination_rootpath='/srv/storage/space/mirrors/code.google.com/sources/'):
+def produce(gs_url, destination_rootpath='/srv/storage/space/mirrors/code.google.com/sources/'):  # noqa
     from swh.scheduler.celery_backend.config import app
     from swh.fetcher.googlecode import tasks  # noqa
 
