@@ -18,18 +18,31 @@ def compute_destination_folder(path):
     return os.path.join(parent_ddir, project_name[0], project_name)
 
 
-prefix_url_api = 'https://www.googleapis.com/storage/v1/b/google-code-archive-source/o'  # noqa
+prefix_source_url_api = 'https://www.googleapis.com/storage/v1/b/google-code-archive-source/o'  # noqa
+prefix_project_meta = 'https://storage.googleapis.com/google-code-archive'
 
 
 def transform(url_gs):
-    """Transform input gs:// url into:
+    """Transform input gs:// url into a dictionary with the following
+       information.
+
+    Returns:
+        Dict of the following form:
         - destination folder
         - filename
-        - metadata url to fetch
-        - actual content to fetch
+        - metadata archive url to fetch
+        - project metadata url to fetch
+
     """
     url_gs = url_gs.replace('gs://google-code-archive-source/', '')
     filename = os.path.basename(url_gs)
-    url_meta = '%s/%s' % (prefix_url_api, url_gs.replace('/', '%2F'))
-    parent_dir = compute_destination_folder(url_gs)
-    return parent_dir, filename, url_meta, '%s?alt=media' % url_meta
+    project_name = os.path.dirname(url_gs)
+    url_meta = '%s/%s' % (prefix_source_url_api, url_gs.replace('/', '%2F'))
+    url_project_meta = '%s/%s/project.json' % (prefix_project_meta,
+                                               project_name)
+    return {
+        'parent_dir': compute_destination_folder(url_gs),
+        'filename': filename,
+        'url_project_archive_meta': url_meta,
+        'url_project_meta': url_project_meta
+    }

@@ -14,21 +14,31 @@ from . import utils
 if __name__ == '__main__':
     for archive in sys.stdin:
         archive_gs = archive.rstrip()
-        parent_dir, filename, url_meta, url_content = utils.transform(
+        data = utils.transform(  # noqa
             archive_gs)
+
+        parent_dir = data['parent_dir']
+        filename = data['filename']
+        url_project_archive_meta = data['url_project_archive_meta']
+        url_project_meta = data['url_project_meta']
         os.makedirs(parent_dir, exist_ok=True)
 
         project_name = os.path.basename(parent_dir)
         filename = project_name + '-' + filename + '.json'
 
         try:
-            r = requests.get(url_meta)
+            r = requests.get(url_project_archive_meta)
         except:
-            print('', filename)
+            archive_size = ''
         else:
-            print(r.json()['size'], filename)
+            archive_size = r.json()['size']
 
-            # we store the project metadata
-            filepath = os.path.join(parent_dir, filename)
-            with open(filepath, 'wb') as f:
-                f.write(r.text.encode('utf-8'))
+        repo_type = ''
+        try:
+            r = requests.get(url_project_meta)
+        except:
+            repo_type = ''
+        else:
+            repo_type = r.json()['repoType']
+
+        print(filename, archive_size, repo_type)
