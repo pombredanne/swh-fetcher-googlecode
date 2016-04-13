@@ -10,7 +10,7 @@ import requests
 from swh.core import config, hashutil
 
 from .utils import transform
-from .hashutil import crc32c_hash, md5_hash, md5_from_b64, crc32c_from_b64
+from .hashutil import md5_hash, md5_from_b64
 
 
 class SWHGoogleFetcher(config.SWHConfig):
@@ -74,7 +74,6 @@ class SWHGoogleFetcher(config.SWHConfig):
 
     def check_source(self, meta, filepath):
         expected = {
-            'crc32c': crc32c_from_b64(meta['crc32c']),
             'md5': md5_from_b64(meta['md5Hash']),
             'size': int(meta['size'])
         }
@@ -95,15 +94,6 @@ class SWHGoogleFetcher(config.SWHConfig):
             if md5_h != expected['md5']:
                 msg = 'Bad md5 signature. Expected: %s. Got: %s' % (
                     expected['md5'], md5_h)
-                self.log.error(msg)
-                error = True
-
-            f.seek(0)
-
-            crc32c_h = crc32c_hash(f)
-            if expected['crc32c'] != crc32c_h:
-                msg = 'Bad crc32c signature. Expected: %s. Got: %s' % (
-                    expected['crc32c'], crc32c_h)
                 self.log.error(msg)
                 error = True
 
