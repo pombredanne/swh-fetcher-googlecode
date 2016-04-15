@@ -18,8 +18,6 @@ def produce(gs_url, destination_rootpath='/srv/storage/space/mirrors/code.google
     from swh.scheduler.celery_backend.config import app
     from swh.fetcher.googlecode import tasks  # noqa
 
-    print('%s sent for download and checks.' % gs_url)
-
     task = app.tasks[task_name]
     if gs_url:  # for debug purpose
         task.delay(gs_url, destination_rootpath)
