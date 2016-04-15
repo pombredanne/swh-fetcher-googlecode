@@ -20,7 +20,7 @@ $ gzip -d 0-512-md-repo.svndump.gz
 
 ** Create empty shell svn repository
 #+BEGIN_SRC sh
-$ svnadmin create respos/0-512-md
+$ svnadmin create repos/0-512-md
 #+END_SRC
 
 ** Load the repository into a local svn repository
