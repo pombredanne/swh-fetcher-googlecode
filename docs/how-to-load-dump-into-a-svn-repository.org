@@ -1,0 +1,798 @@
+#+title: Reference from googlecode archive dump to a svn repository
+#+author: ardumont
+#+source: http://svnbook.red-bean.com/en/1.7/svn-book.html#svn.reposadmin.maint.migrate.svnadmin
+
+From 0-512-md-repo.svndump.gz to a repository and a local copy:
+
+* Requisite
+
+#+BEGIN_SRC sh
+sudo apt install subversion
+#+END_SRC
+
+* From dump to repo
+
+** Unarchive the compressed dump
+
+#+BEGIN_SRC sh
+$ gzip -d 0-512-md-repo.svndump.gz
+#+END_SRC
+
+** Create empty shell svn repository
+#+BEGIN_SRC sh
+$ svnadmin create respos/0-512-md
+#+END_SRC
+
+** Load the repository into a local svn repository
+#+BEGIN_SRC sh
+$ svnadmin load repos/0-512-md < 0-512-md-repo.svndump
+<<< Started new transaction, based on original revision 1
+     * editing path : branches ... done.
+     * editing path : tags ... done.
+     * editing path : trunk ... done.
+     * editing path : wiki ... done.
+
+------- Committed revision 1 >>>
+
+<<< Started new transaction, based on original revision 2
+     * editing path : trunk/.htaccess ... done.
+     * editing path : trunk/_assets ... done.
+     * editing path : trunk/_assets/css ... done.
+     * editing path : trunk/_assets/css/jqm-demos.css ... done.
+     * editing path : trunk/_assets/css/login.css ... done.
+     * editing path : trunk/_assets/img ... done.
+     * editing path : trunk/_assets/img/b-j-top.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/09-chat2.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/100-coffee.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/18-envelope.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/19-gear.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/21-skull.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/30-key.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/34-coffee.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/88-beermug.png ... done.
+     * editing path : trunk/_assets/img/glyphish-icons/Read me first - license.txt ... done.
+     * editing path : trunk/_assets/img/jquery-logo.png ... done.
+     * editing path : trunk/_assets/img/logo.png ... done.
+     * editing path : trunk/_assets/js ... done.
+     * editing path : trunk/_assets/js/autodividers-linkbar.js ... done.
+     * editing path : trunk/_assets/js/function.js ... done.
+     * editing path : trunk/_assets/js/h2widget.js ... done.
+     * editing path : trunk/_assets/js/index.html ... done.
+     * editing path : trunk/_assets/js/index.js ... done.
+     * editing path : trunk/_assets/js/jqm-demos.js ... done.
+     * editing path : trunk/_assets/js/organisations.js ... done.
+     * editing path : trunk/_assets/js/report.js ... done.
+     * editing path : trunk/_assets/js/view-source.js ... done.
+     * editing path : trunk/admin-s.html ... done.
+     * editing path : trunk/admin-sprav-organization.html ... done.
+     * editing path : trunk/admin-u.html ... done.
+     * editing path : trunk/clients.html ... done.
+     * editing path : trunk/css ... done.
+     * editing path : trunk/css/bg.gif ... done.
+     * editing path : trunk/css/form.css ... done.
+     * editing path : trunk/css/ie.css ... done.
+     * editing path : trunk/css/main.css ... done.
+     * editing path : trunk/css/print.css ... done.
+     * editing path : trunk/css/screen.css ... done.
+     * editing path : trunk/css/themes ... done.
+     * editing path : trunk/css/themes/default ... done.
+     * editing path : trunk/css/themes/default/images ... done.
+     * editing path : trunk/css/themes/default/images/ajax-loader.gif ... done.
+     * editing path : trunk/css/themes/default/images/icons-png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/action-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/action-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/alert-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/alert-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-d-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-d-l-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-d-l-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-d-r-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-d-r-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-d-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-l-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-l-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-r-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-r-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-u-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-u-l-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-u-l-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-u-r-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-u-r-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/arrow-u-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/audio-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/audio-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/back-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/back-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/bars-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/bars-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/bullets-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/bullets-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/calendar-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/calendar-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/camera-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/camera-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-d-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-d-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-l-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-l-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-r-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-r-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-u-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/carat-u-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/check-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/check-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/clock-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/clock-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/cloud-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/cloud-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/comment-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/comment-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/delete-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/delete-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/edit-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/edit-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/eye-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/eye-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/forbidden-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/forbidden-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/forward-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/forward-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/gear-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/gear-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/grid-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/grid-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/heart-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/heart-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/home-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/home-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/info-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/info-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/location-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/location-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/lock-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/lock-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/mail-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/mail-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/minus-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/minus-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/navigation-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/navigation-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/phone-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/phone-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/plus-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/plus-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/power-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/power-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/recycle-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/recycle-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/refresh-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/refresh-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/search-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/search-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/shop-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/shop-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/star-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/star-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/tag-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/tag-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/user-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/user-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/video-black.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-png/video-white.png ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/action-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/action-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/alert-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/alert-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-d-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-d-l-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-d-l-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-d-r-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-d-r-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-d-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-l-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-l-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-r-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-r-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-u-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-u-l-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-u-l-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-u-r-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-u-r-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/arrow-u-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/audio-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/audio-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/back-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/back-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/bars-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/bars-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/bullets-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/bullets-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/calendar-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/calendar-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/camera-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/camera-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-d-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-d-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-l-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-l-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-r-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-r-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-u-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/carat-u-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/check-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/check-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/clock-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/clock-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/cloud-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/cloud-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/comment-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/comment-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/delete-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/delete-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/edit-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/edit-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/eye-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/eye-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/forbidden-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/forbidden-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/forward-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/forward-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/gear-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/gear-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/grid-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/grid-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/heart-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/heart-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/home-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/home-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/info-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/info-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/location-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/location-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/lock-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/lock-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/mail-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/mail-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/minus-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/minus-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/navigation-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/navigation-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/phone-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/phone-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/plus-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/plus-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/power-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/power-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/recycle-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/recycle-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/refresh-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/refresh-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/search-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/search-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/shop-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/shop-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/star-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/star-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/tag-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/tag-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/user-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/user-white.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/video-black.svg ... done.
+     * editing path : trunk/css/themes/default/images/icons-svg/video-white.svg ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile-1.4.3.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.external-png-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.external-png-1.4.3.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.icons-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.icons-1.4.3.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.inline-png-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.inline-png-1.4.3.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.inline-svg-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.inline-svg-1.4.3.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.structure-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.structure-1.4.3.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.theme-1.4.2.min.css ... done.
+     * editing path : trunk/css/themes/default/jquery.mobile.theme-1.4.3.min.css ... done.
+     * editing path : trunk/index.html ... done.
+     * editing path : trunk/js ... done.
+     * editing path : trunk/js/jquery.js ... done.
+     * editing path : trunk/js/jquery.min.js ... done.
+     * editing path : trunk/js/jquery.mobile-1.4.2.js ... done.
+     * editing path : trunk/js/jquery.mobile-1.4.2.min.js ... done.
+     * editing path : trunk/js/jquery.mobile-1.4.2.min.map ... done.
+     * editing path : trunk/js/jquery.mobile-1.4.3.js ... done.
+     * editing path : trunk/js/jquery.mobile-1.4.3.min.js ... done.
+     * editing path : trunk/js/jquery.mobile-1.4.3.min.map ... done.
+     * editing path : trunk/login.html ... done.
+     * editing path : trunk/organization-page.html ... done.
+     * editing path : trunk/organizations.html ... done.
+     * editing path : trunk/popup-create-visit.html ... done.
+     * editing path : trunk/popup-user.html ... done.
+     * editing path : trunk/report-clients-alvagel.html ... done.
+     * editing path : trunk/report-visit-alvagel.html ... done.
+     * editing path : trunk/sort-clients-specialist-grid-2.html ... done.
+     * editing path : trunk/sort-organization.html ... done.
+     * editing path : trunk/specialist-page.html ... done.
+
+------- Committed revision 2 >>>
+
+<<< Started new transaction, based on original revision 3
+     * editing path : trunk/russiane_medpred.sql ... done.
+
+------- Committed revision 3 >>>
+
+<<< Started new transaction, based on original revision 4
+     * editing path : trunk/index.php ... done.
+
+------- Committed revision 4 >>>
+
+<<< Started new transaction, based on original revision 5
+     * editing path : trunk/access.txt ... done.
+
+------- Committed revision 5 >>>
+
+<<< Started new transaction, based on original revision 6
+     * editing path : trunk/clients.php ... done.
+     * editing path : trunk/index.php ... done.
+     * editing path : trunk/login.php ... done.
+     * editing path : trunk/mysql_dump ... done.
+     * editing path : trunk/mysql_dump/russiane_med 160914.sql ... done.
+     * editing path : trunk/organizations.php ... done.
+     * editing path : trunk/parts ... done.
+     * editing path : trunk/parts/other ... done.
+     * editing path : trunk/parts/other/des_end_page.php ... done.
+     * editing path : trunk/parts/other/metrics_body.php ... done.
+     * editing path : trunk/parts/other/metrics_head.php ... done.
+     * editing path : trunk/parts/section ... done.
+     * editing path : trunk/parts/section/footer.php ... done.
+     * editing path : trunk/parts/section/header.php ... done.
+     * editing path : trunk/scripts ... done.
+     * editing path : trunk/scripts/js ... done.
+     * editing path : trunk/scripts/js/main_script.js ... done.
+     * editing path : trunk/scripts/php ... done.
+     * editing path : trunk/scripts/php/content.php ... done.
+     * editing path : trunk/scripts/php/f_json.php ... done.
+     * editing path : trunk/scripts/php/f_mysql.php ... done.
+     * editing path : trunk/scripts/php/sessions.php ... done.
+     * editing path : trunk/test_page.php ... done.
+     * editing path : trunk/russiane_medpred.sql ... done.
+
+------- Committed revision 6 >>>
+
+<<< Started new transaction, based on original revision 7
+     * editing path : trunk/parts/section/header.php ... done.
+
+------- Committed revision 7 >>>
+#+END_SRC
+
+** Check the content of the updated repository
+
+#+BEGIN_SRC sh
+$ cd repos/0-512-md && ls
+conf  db  format  hooks  locks  README.txt
+#+END_SRC
+
+** Check that you can actually create a working copy
+
+#+BEGIN_SRC sh
+$ mkdir working-copies
+$ svn co file:///home/tony/tmp/svnadmin/repos/0-512-md/ ./working-copies/0-512-md
+A    working-copies/0-512-md/branches
+A    working-copies/0-512-md/tags
+A    working-copies/0-512-md/trunk
+A    working-copies/0-512-md/trunk/_assets
+A    working-copies/0-512-md/trunk/_assets/css
+A    working-copies/0-512-md/trunk/_assets/css/jqm-demos.css
+A    working-copies/0-512-md/trunk/_assets/css/login.css
+A    working-copies/0-512-md/trunk/_assets/img
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/09-chat2.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/100-coffee.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/18-envelope.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/19-gear.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/21-skull.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/30-key.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/34-coffee.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/88-beermug.png
+A    working-copies/0-512-md/trunk/_assets/img/glyphish-icons/Read me first - license.txt
+A    working-copies/0-512-md/trunk/_assets/img/b-j-top.png
+A    working-copies/0-512-md/trunk/_assets/img/jquery-logo.png
+A    working-copies/0-512-md/trunk/_assets/img/logo.png
+A    working-copies/0-512-md/trunk/_assets/js
+A    working-copies/0-512-md/trunk/_assets/js/autodividers-linkbar.js
+A    working-copies/0-512-md/trunk/_assets/js/function.js
+A    working-copies/0-512-md/trunk/_assets/js/h2widget.js
+A    working-copies/0-512-md/trunk/_assets/js/index.html
+A    working-copies/0-512-md/trunk/_assets/js/index.js
+A    working-copies/0-512-md/trunk/_assets/js/jqm-demos.js
+A    working-copies/0-512-md/trunk/_assets/js/organisations.js
+A    working-copies/0-512-md/trunk/_assets/js/report.js
+A    working-copies/0-512-md/trunk/_assets/js/view-source.js
+A    working-copies/0-512-md/trunk/css
+A    working-copies/0-512-md/trunk/css/themes
+A    working-copies/0-512-md/trunk/css/themes/default
+A    working-copies/0-512-md/trunk/css/themes/default/images
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/action-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/action-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/alert-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/alert-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-d-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-d-l-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-d-l-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-d-r-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-d-r-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-d-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-l-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-l-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-r-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-r-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-u-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-u-l-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-u-l-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-u-r-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-u-r-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/arrow-u-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/audio-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/audio-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/back-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/back-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/bars-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/bars-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/bullets-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/bullets-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/calendar-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/calendar-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/camera-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/camera-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-d-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-d-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-l-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-l-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-r-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-r-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-u-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/carat-u-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/check-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/check-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/clock-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/clock-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/cloud-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/cloud-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/comment-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/comment-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/delete-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/delete-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/edit-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/edit-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/eye-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/eye-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/forbidden-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/forbidden-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/forward-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/forward-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/gear-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/gear-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/grid-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/grid-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/heart-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/heart-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/home-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/home-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/info-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/info-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/location-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/location-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/lock-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/lock-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/mail-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/mail-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/minus-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/minus-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/navigation-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/navigation-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/phone-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/phone-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/plus-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/plus-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/power-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/power-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/recycle-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/recycle-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/refresh-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/refresh-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/search-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/search-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/shop-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/shop-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/star-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/star-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/tag-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/tag-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/user-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/user-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/video-black.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-png/video-white.png
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/action-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/action-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/alert-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/alert-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-d-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-d-l-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-d-l-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-d-r-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-d-r-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-d-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-l-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-l-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-r-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-r-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-u-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-u-l-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-u-l-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-u-r-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-u-r-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/arrow-u-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/audio-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/audio-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/back-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/back-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/bars-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/bars-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/bullets-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/bullets-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/calendar-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/calendar-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/camera-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/camera-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-d-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-d-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-l-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-l-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-r-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-r-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-u-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/carat-u-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/check-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/check-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/clock-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/clock-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/cloud-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/cloud-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/comment-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/comment-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/delete-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/delete-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/edit-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/edit-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/eye-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/eye-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/forbidden-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/forbidden-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/forward-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/forward-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/gear-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/gear-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/grid-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/grid-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/heart-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/heart-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/home-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/home-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/info-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/info-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/location-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/location-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/lock-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/lock-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/mail-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/mail-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/minus-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/minus-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/navigation-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/navigation-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/phone-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/phone-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/plus-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/plus-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/power-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/power-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/recycle-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/recycle-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/refresh-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/refresh-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/search-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/search-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/shop-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/shop-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/star-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/star-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/tag-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/tag-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/user-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/user-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/video-black.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/icons-svg/video-white.svg
+A    working-copies/0-512-md/trunk/css/themes/default/images/ajax-loader.gif
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.external-png-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.external-png-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.icons-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.icons-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.inline-png-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.inline-png-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.inline-svg-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.inline-svg-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.structure-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.structure-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.theme-1.4.2.min.css
+A    working-copies/0-512-md/trunk/css/themes/default/jquery.mobile.theme-1.4.3.min.css
+A    working-copies/0-512-md/trunk/css/bg.gif
+A    working-copies/0-512-md/trunk/css/form.css
+A    working-copies/0-512-md/trunk/css/ie.css
+A    working-copies/0-512-md/trunk/css/main.css
+A    working-copies/0-512-md/trunk/css/print.css
+A    working-copies/0-512-md/trunk/css/screen.css
+A    working-copies/0-512-md/trunk/js
+A    working-copies/0-512-md/trunk/js/jquery.js
+A    working-copies/0-512-md/trunk/js/jquery.min.js
+A    working-copies/0-512-md/trunk/js/jquery.mobile-1.4.2.js
+A    working-copies/0-512-md/trunk/js/jquery.mobile-1.4.2.min.js
+A    working-copies/0-512-md/trunk/js/jquery.mobile-1.4.2.min.map
+A    working-copies/0-512-md/trunk/js/jquery.mobile-1.4.3.js
+A    working-copies/0-512-md/trunk/js/jquery.mobile-1.4.3.min.js
+A    working-copies/0-512-md/trunk/js/jquery.mobile-1.4.3.min.map
+A    working-copies/0-512-md/trunk/mysql_dump
+A    working-copies/0-512-md/trunk/mysql_dump/russiane_med 160914.sql
+A    working-copies/0-512-md/trunk/parts
+A    working-copies/0-512-md/trunk/parts/other
+A    working-copies/0-512-md/trunk/parts/other/des_end_page.php
+A    working-copies/0-512-md/trunk/parts/other/metrics_body.php
+A    working-copies/0-512-md/trunk/parts/other/metrics_head.php
+A    working-copies/0-512-md/trunk/parts/section
+A    working-copies/0-512-md/trunk/parts/section/footer.php
+A    working-copies/0-512-md/trunk/parts/section/header.php
+A    working-copies/0-512-md/trunk/scripts
+A    working-copies/0-512-md/trunk/scripts/js
+A    working-copies/0-512-md/trunk/scripts/js/main_script.js
+A    working-copies/0-512-md/trunk/scripts/php
+A    working-copies/0-512-md/trunk/scripts/php/content.php
+A    working-copies/0-512-md/trunk/scripts/php/f_json.php
+A    working-copies/0-512-md/trunk/scripts/php/f_mysql.php
+A    working-copies/0-512-md/trunk/scripts/php/sessions.php
+A    working-copies/0-512-md/trunk/.htaccess
+A    working-copies/0-512-md/trunk/access.txt
+A    working-copies/0-512-md/trunk/admin-s.html
+A    working-copies/0-512-md/trunk/admin-sprav-organization.html
+A    working-copies/0-512-md/trunk/admin-u.html
+A    working-copies/0-512-md/trunk/clients.html
+A    working-copies/0-512-md/trunk/clients.php
+A    working-copies/0-512-md/trunk/index.html
+A    working-copies/0-512-md/trunk/index.php
+A    working-copies/0-512-md/trunk/login.html
+A    working-copies/0-512-md/trunk/login.php
+A    working-copies/0-512-md/trunk/organization-page.html
+A    working-copies/0-512-md/trunk/organizations.html
+A    working-copies/0-512-md/trunk/organizations.php
+A    working-copies/0-512-md/trunk/popup-create-visit.html
+A    working-copies/0-512-md/trunk/popup-user.html
+A    working-copies/0-512-md/trunk/report-clients-alvagel.html
+A    working-copies/0-512-md/trunk/report-visit-alvagel.html
+A    working-copies/0-512-md/trunk/sort-clients-specialist-grid-2.html
+A    working-copies/0-512-md/trunk/sort-organization.html
+A    working-copies/0-512-md/trunk/specialist-page.html
+A    working-copies/0-512-md/trunk/test_page.php
+A    working-copies/0-512-md/wiki
+Checked out revision 7.
+#+END_SRC
+
+** svn info
+
+#+BEGIN_SRC sh
+$ cd ./working-copies/0-512-md
+cd working-copies/0-512-md && svn info
+Path: .
+Working Copy Root Path: /home/tony/tmp/svnadmin/working-copies/0-512-md
+URL: file:///home/tony/tmp/svnadmin/repos/0-512-md
+Relative URL: ^/
+Repository Root: file:///home/tony/tmp/svnadmin/repos/0-512-md
+Repository UUID: ec87962a-a51e-4ed8-98a0-4cb3e98efb5c
+Revision: 7
+Node Kind: directory
+Schedule: normal
+Last Changed Author: i.creative.too@gmail.com
+Last Changed Rev: 7
+Last Changed Date: 2014-09-16 20:45:22 +0200 (Tue, 16 Sep 2014)
+#+END_SRC
+
+** svn log
+
+#+BEGIN_SRC sh
+$ svn log
+------------------------------------------------------------------------
+r7 | i.creative.too@gmail.com | 2014-09-16 20:45:22 +0200 (Tue, 16 Sep 2014) | 1 line
+
+добавил пустой класс в хедер
+------------------------------------------------------------------------
+r6 | iromanser | 2014-09-16 19:13:44 +0200 (Tue, 16 Sep 2014) | 8 lines
+
+Разбил HTML трех (пока) страниц (визиты-клиенты-организации) на составляющие. Header и Footer лежат в parts/section
+Дампы базы буду ложить в отдельную папку mysql_dump. Текущие версии скриптов уже можно потестить, к примеру user / 123 такой парой. Админской учетки пока нет.
+В базе уже заложены права на доступы к отдельным страницам. Но пока для юзера прописаны.
+1. Есть проблема со страницей login.php - когда на нее идет переадресация средствами Jquery.mobile, то верстка съезжает.
+2. Надо продумать вывод сообщения об ошибке при неправильном вводе пароля (там стоит бутстрапный алерт, он чуть криво в этой верстке, но читабелен)
+3. Надо продумать вывод логина текущего юзера в навбаре и кнопку выход. Сделал пока просто для демонстрации обычным h3 тегом и крестиком.
+
+
+------------------------------------------------------------------------
+r5 | i.creative.too@gmail.com | 2014-09-11 15:22:59 +0200 (Thu, 11 Sep 2014) | 2 lines
+
+Тут мы с Алексеем обсуждали права, которые нам нужны в программе.
+
+------------------------------------------------------------------------
+r4 | iromanser | 2014-09-11 15:14:08 +0200 (Thu, 11 Sep 2014) | 2 lines
+
+в этпопробую в этом файле отработать подключение к БД, я ее импортнул уже в денвер
+
+------------------------------------------------------------------------
+r3 | i.creative.too@gmail.com | 2014-09-11 14:54:14 +0200 (Thu, 11 Sep 2014) | 1 line
+
+добавил БД в корень
+------------------------------------------------------------------------
+r2 | i.creative.too@gmail.com | 2014-09-11 12:25:35 +0200 (Thu, 11 Sep 2014) | 1 line
+
+First commit
+------------------------------------------------------------------------
+r1 | (no author) | 2014-09-11 12:16:12 +0200 (Thu, 11 Sep 2014) | 1 line
+
+Initial directory structure.
+------------------------------------------------------------------------
+#+END_SRC
+
+** swh-loader-svn
+
+Producing this repository to crawl...
+
+#+BEGIN_SRC sh
+echo file:///home/tony/tmp/svnadmin/repos/0-512-md | python3 -u -m swh.loader.svn.producer
+#+END_SRC
+
+To a running swh worker celery instance...
+#+BEGIN_SRC sh
+[2016-04-15 16:19:58,488: INFO/MainProcess] Received task: swh.loader.svn.tasks.LoadSvnRepositoryTsk[b8b57c71-0235-4be9-9df6-7217921e5c0c]
+[2016-04-15 16:19:58,557: DEBUG/Worker-1] svn co file:///home/tony/tmp/svnadmin/repos/0-512-md@1
+[2016-04-15 16:19:58,564: INFO/Worker-1] [revision_start-revision_end]: [1-7]
+[2016-04-15 16:19:58,569: INFO/Worker-1] Repo {'swh-origin': 4, 'remote_url': 'file:///home/tony/tmp/svnadmin/repos/0-512-md', 'uuid': 'ec87962a-a51e-4ed8-98a0-4cb3e98efb5c', 'local_url': '/tmp/tmp.m6s9nzhy.swh.loader/0-512-md'} ready to be processed.
+[2016-04-15 16:19:58,595: DEBUG/Worker-1] rev: 1, swhrev: 5a91adb1960e0a22e93791ec424ce499758ab341
+[2016-04-15 16:19:58,872: DEBUG/Worker-1] rev: 2, swhrev: 8b226ab66df5fa515f73ea27ad4a5ed302fbaeb7
+[2016-04-15 16:19:58,908: DEBUG/Worker-1] Sending 268 contents
+[2016-04-15 16:19:59,448: DEBUG/Worker-1] Done sending 268 contents
+[2016-04-15 16:19:59,524: DEBUG/Worker-1] rev: 3, swhrev: 408e8d85998348e93785d18084d0c86612dded61
+[2016-04-15 16:19:59,624: DEBUG/Worker-1] rev: 4, swhrev: 3ae5713da1b985873909df985227927c1e5b6ad3
+[2016-04-15 16:19:59,714: DEBUG/Worker-1] rev: 5, swhrev: b72db23b204e580e15c0ae7cf12fa4c66bddc5f6
+[2016-04-15 16:19:59,823: DEBUG/Worker-1] rev: 6, swhrev: 09183576e2e25e292290ed639bd637cd7414f175
+[2016-04-15 16:19:59,878: DEBUG/Worker-1] rev: 7, swhrev: e43f72e12c88abece79a87b8c9ad232e1b773d18
+[2016-04-15 16:19:59,931: DEBUG/Worker-1] occ: {'target_type': 'revision', 'date': datetime.datetime(2016, 4, 15, 14, 19, 59, 931657), 'branch': 'master', 'target': b'\xe4?r\xe1,\x88\xab\xec\xe7\x9a\x87\xb8\xc9\xad#.\x1bw=\x18', 'origin': 4}
+[2016-04-15 16:19:59,939: DEBUG/Worker-1] Sending 20 contents
+[2016-04-15 16:20:00,100: DEBUG/Worker-1] Done sending 20 contents
+[2016-04-15 16:20:00,108: DEBUG/Worker-1] Sending 34 directories
+[2016-04-15 16:20:00,159: DEBUG/Worker-1] Done sending 34 directories
+[2016-04-15 16:20:00,165: DEBUG/Worker-1] Sending 7 revisions
+[2016-04-15 16:20:00,196: DEBUG/Worker-1] Done sending 7 revisions
+[2016-04-15 16:20:00,204: DEBUG/Worker-1] Sending 1 occurrences
+[2016-04-15 16:20:00,229: DEBUG/Worker-1] Done sending 1 occurrences
+[2016-04-15 16:20:00,257: INFO/MainProcess] Task swh.loader.svn.tasks.LoadSvnRepositoryTsk[b8b57c71-0235-4be9-9df6-7217921e5c0c] succeeded in 1.7581366100057494s: None
+#+END_SRC
+
+We can check in db the occurrence points to the r7 revision with the same message as shown in previous svn log retrieval:
+#+BEGIN_SRC sql
+softwareheritage-dev=# select rev.metadata, convert_from(rev.message, 'utf-8') from occurrence occ join revision rev on occ.target = rev.id join origin ori on occ.origin = ori.id where ori.url = 'file:///home/tony/tmp/svnadmin/repos/0-512-md' ;
+                                              metadata                                               |         convert_from
+-----------------------------------------------------------------------------------------------------+------------------------------
+ {"extra_headers": [["svn_repo_uuid", "ec87962a-a51e-4ed8-98a0-4cb3e98efb5c"], ["svn_revision", 7]]} | добавил пустой класс в хедер
+(1 row)
+#+END_SRC
