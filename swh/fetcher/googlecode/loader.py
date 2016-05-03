@@ -189,7 +189,6 @@ class SWHGoogleFetcher(config.SWHConfig):
 
         # Trouble, we rename the corrupted file
         if os.path.exists(filepath):
-            filepath_corrupted = filepath + '.corrupted'
             self.log.error('Rename corrupted file %s to %s' % (
                 os.path.basename(filepath),
                 os.path.basename(filepath_corrupted)))

@@ -1,0 +1,71 @@
+#+title: Errors when fetching archives
+#+author: ardumont
+
+Unfortunately, the error log does not render the initial url and gives only either filename or either the computed url, so we need to fetch back those errors and recompute the initial url...
+
+* Logs
+
+Retrieve the errors from swh-log db:
+#+BEGIN_SRC sh
+psql -c "select level, message from log where src_host='worker01.softwareheritage.org' and ts between '2016-04-10 00:00:00.00+01' and '2016-05-01 00:00:00.00+01' and level = 'error';" service=swh-log > in-errors
+#+END_SRC
+
+There are 2 kinds of errors, either corruption (mismatch between declared size or md5) or download errors.
+
+* Corruption
+
+Problem when fetching are just download errors:
+#+BEGIN_SRC sh
+grep 'Problem when fetching' in-errors > INDEX-errors-when-fetching
+#+END_SRC
+
+We can also have corrupted files:
+#+BEGIN_SRC sh
+grep corrupted in-errors | awk '{print $11}' > INDEX-corrupted-ones
+#+END_SRC
+
+Those have 2 kinds:
+- repo
+- source-archive files
+
+** repo
+
+#+BEGIN_SRC sh
+grep "repo" INDEX-corrupted-ones > INDEX-corrupted-repo
+#+END_SRC
+
+Computing back the initial url gives:
+#+BEGIN_SRC sh
+for f in $(cat INDEX-corrupted-repo); do
+    f=$(echo $f | sed 's/\(.*\)-repo.*/\1/')
+    grep $f downloaded-google-archive-source
+done >> INDEX-to-reschedule
+#+END_SRC
+
+Note: downloaded-google-archive-source is the file containing list of initial urls.
+
+** source-archive
+
+#+BEGIN_SRC sh
+grep "source" INDEX-corrupted-ones > INDEX-corrupted-source
+#+END_SRC
+
+Computing back the initial urls gives:
+#+BEGIN_SRC sh
+for f in $(cat INDEX-corrupted-source); do
+    f=$(echo $f | sed 's/\(.*\)-source-archive.*/\1/')
+    grep $f downloaded-google-archive-source
+done >> INDEX-to-reschedule-2
+#+END_SRC
+
+* Download errors
+
+#+BEGIN_SRC sh
+grep "Problem when fetching file" in-errors | grep -v "ValueError" | awk '{print $10}' > INDEX-errors-when-fetching
+#+END_SRC
+
+#+BEGIN_SRC sh
+for f in $(cat INDEX-errors-when-fetching | sed 's/.*%2F\(.*\)%2F.*/\1/'); do
+    grep $f downloaded-google-archive-source
+done >> INDEX-to-reschedule-3
+#+END_SRC
