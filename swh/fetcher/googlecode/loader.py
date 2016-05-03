@@ -83,19 +83,21 @@ class SWHGoogleFetcher(config.SWHConfig):
 
         return md5h == h.digest()
 
-    def retrieve_source(self, meta, filepath):
+    def retrieve_source(self, archive_gs, meta, filepath):
         url = meta['mediaLink']
         if not os.path.exists(filepath):
             self.log.debug('Fetching %s\' raw data.' % url)
             try:
                 r = requests.get(url, stream=True)
             except Exception as e:
-                msg = 'Problem when fetching file %s.' % url
+                msg = 'Problem when fetching archive %s from url %s.' % (
+                    archive_gs, url)
                 self.log.error(msg)
                 raise ValueError(msg, e)
             else:
                 if not r.ok:
-                    msg = 'Problem when fetching file %s.' % url
+                    msg = 'Problem when fetching archive %s from url %s.' % (
+                        archive_gs, url)
                     self.log.error(msg)
                     raise ValueError(msg)
 
@@ -174,7 +176,7 @@ class SWHGoogleFetcher(config.SWHConfig):
             os.remove(filepath)
 
         # the file does not exist, we retrieve it
-        checks_ok = self.retrieve_source(meta, filepath)
+        checks_ok = self.retrieve_source(archive_gs, meta, filepath)
 
         # Third - Check the retrieved source
         if checks_ok and self.check_source_ok(meta, filepath):
