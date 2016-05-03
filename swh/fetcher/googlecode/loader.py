@@ -175,6 +175,10 @@ class SWHGoogleFetcher(config.SWHConfig):
             self.log.error('Clean corrupted file %s' % filepath)
             os.remove(filepath)
 
+        filepath_corrupted = filepath + '.corrupted'
+        if os.path.exists(filepath_corrupted):
+            os.remove(filepath_corrupted)
+
         # the file does not exist, we retrieve it
         checks_ok = self.retrieve_source(archive_gs, meta, filepath)
 
