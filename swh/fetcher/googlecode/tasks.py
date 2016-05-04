@@ -4,14 +4,14 @@
 # See top-level LICENSE file for more information
 
 from swh.scheduler.task import Task
-from .loader import SWHGoogleFetcher
+from .fetcher import SWHGoogleArchiveFetcher
 
 
-class SWHGoogleFetcherTask(Task):
+class SWHGoogleArchiveFetcherTask(Task):
     """Main task to fetch files from google code archive server.
 
     """
-    task_queue = 'swh_fetcher_googlecode_archive'
+    task_queue = 'swh_fetcher_googlecode_fetch_archive'
 
     def run(self, archive_gs, destination_rootpath):
-        SWHGoogleFetcher().process(archive_gs, destination_rootpath)
+        SWHGoogleArchiveFetcher().process(archive_gs, destination_rootpath)

@@ -14,8 +14,8 @@ from .utils import transform
 from .hashutil import md5_hash, md5_from_b64
 
 
-class SWHGoogleFetcher(config.SWHConfig):
-    """A swh data fetcher loader.
+class SWHGoogleArchiveFetcher(config.SWHConfig):
+    """A google code archive fetcher.
 
     This fetcher will:
 
@@ -28,7 +28,8 @@ class SWHGoogleFetcher(config.SWHConfig):
 
     """
     def __init__(self):
-        self.log = logging.getLogger('swh.fetcher.google.SWHGoogleFetcher')
+        self.log = logging.getLogger(
+            'swh.fetcher.google.SWHGoogleArchiveFetcher')
 
         l = logging.getLogger('requests.packages.urllib3.connectionpool')
         l.setLevel(logging.WARN)
