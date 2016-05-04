@@ -22,7 +22,7 @@ def produce(gs_url, destination_rootpath='/srv/storage/space/mirrors/code.google
     task = app.tasks[task_name]
     if gs_url:  # for debug purpose
         task.delay(gs_url, destination_rootpath)
-    else:  # synchroneous flag is ignored in that case
+    else:
         for gs_url in sys.stdin:
             gs_url = gs_url.rstrip()
             print(gs_url)
