@@ -1,0 +1,81 @@
+#+title: 'integrity' Checks on vcs
+#+author: ardumont
+
+* hg check
+
+#+BEGIN_SRC sh
+ardumont@uffizi:/tmp/longkeyy-luceneutil$ hg verify
+checking changesets
+checking manifests
+crosschecking files in changesets and manifests
+checking files
+115 files, 552 changesets, 1054 total revisions
+ardumont@uffizi:/tmp/longkeyy-luceneutil$ echo $?
+0
+#+END_SRC
+
+* git check
+
+#+BEGIN_SRC sh
+ardumont@uffizi:/tmp/cassandra-ruby$ git fsck
+Checking object directories: 100% (256/256), done.
+Checking objects: 100% (957/957), done.
+ardumont@uffizi:/tmp/cassandra-ruby$ echo $?
+0
+#+END_SRC
+
+* svn check
+
+#+BEGIN_SRC sh
+$ svnadmin create jdochelper-repo                                                                                                                                                                                          1
+$ svnadmin load jdochelper-repo < jdochelper-repo.svndump
+<<< Started new transaction, based on original revision 1
+* editing path : branches ... done.
+* editing path : tags ... done.
+* editing path : trunk ... done.
+* editing path : wiki ... done.
+
+------- Committed revision 1 >>>
+
+<<< Started new transaction, based on original revision 2
+* editing path : wiki/Index.wiki ... done.
+
+------- Committed revision 2 >>>
+
+<<< Started new transaction, based on original revision 3
+* editing path : trunk/JDocHelper ... done.
+
+------- Committed revision 3 >>>
+
+<<< Started new transaction, based on original revision 4
+* editing path : trunk/JDocHelper ... done.
+* editing path : trunk/JDocHelper/.classpath ... done.
+* editing path : trunk/JDocHelper/.project ... done.
+* editing path : trunk/JDocHelper/.settings ... done.
+* editing path : trunk/JDocHelper/.settings/org.eclipse.core.resources.prefs ... done.
+* editing path : trunk/JDocHelper/.settings/org.eclipse.jdt.core.prefs ... done.
+* editing path : trunk/JDocHelper/build.xml ... done.
+* editing path : trunk/JDocHelper/doc ... done.
+* editing path : trunk/JDocHelper/doc/logo.jpg ... done.
+* editing path : trunk/JDocHelper/doc/todos.txt ... done.
+* editing path : trunk/JDocHelper/lib ... done.
+* editing path : trunk/JDocHelper/readme.txt ... done.
+* editing path : trunk/JDocHelper/run.bat ... done.
+* editing path : trunk/JDocHelper/src ... done.
+* editing path : trunk/JDocHelper/src/org ... done.
+* editing path : trunk/JDocHelper/src/org/tacedu ... done.
+* editing path : trunk/JDocHelper/src/org/tacedu/javadochelper ... done.
+* editing path : trunk/JDocHelper/src/org/tacedu/javadochelper/Main.java ... done.
+* editing path : trunk/JDocHelper/src/org/tacedu/javadochelper/MainFrame.java ... done.
+
+------- Committed revision 4 >>>
+
+<<< Started new transaction, based on original revision 5
+* editing path : trunk/JDocHelper/info.txt ... done.
+
+------- Committed revision 5 >>>
+
+$ echo $?
+0
+#+END_SRC
+Note: `cat jdochelper-repo.svndump | svnadmin load jdochelper-repo`

@@ -7,6 +7,7 @@
 import os
 import json
 
+from contextlib import contextmanager
 
 
 def compute_destination_folder(path):
@@ -48,6 +49,22 @@ def transform(url_gs):
         'url_project_archive_meta': url_meta,
         'url_project_meta': url_project_meta
     }
+
+
+@contextmanager
+def cwd(path):
+    """Contextually change the working directory to do thy bidding.
+    Then gets back to the original location.
+
+    """
+    prev_cwd = os.getcwd()
+    os.chdir(path)
+    try:
+        yield
+    finally:
+        os.chdir(prev_cwd)
+
+
 def load_meta(filepath):
     """Load the metadata from the given filepath (json file).
        It is assumed that the code is called after checking the file
