@@ -150,6 +150,6 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
                 self.log.error('%s FAILURE' % archive_path)
 
         finally:
-            # cleanup the temporary representation
+            # cleanup the temporary directory
             if os.path.exists(temp_dir):
                 shutil.rmtree(temp_dir)
