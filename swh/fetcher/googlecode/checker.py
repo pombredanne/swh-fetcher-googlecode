@@ -124,6 +124,12 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
         """
         self.log.info('Check %s\'s metadata' % archive_path)
 
+        extension = os.path.splitext(archive_path)[-1]
+        if extension != '.gz' and extension != '.zip':
+            self.log.warn('Skip %s. Only zip or gz extension files.' %
+                          archive_path)
+            return
+
         parent_dir = os.path.dirname(archive_path)
         # contains the repoType field
         project_json = os.path.join(parent_dir, REPO_TYPE_FILENAME)
@@ -136,7 +142,6 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
 
         repo_type = meta[REPO_TYPE_KEY]
 
-        extension = os.path.splitext(archive_path)[-1]
         if repo_type == 'svn' and extension == '.zip':
             self.log.warn('Skip %s. Only svndump for svn type repository.' %
                           archive_path)
