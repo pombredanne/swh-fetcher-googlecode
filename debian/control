@@ -22,6 +22,7 @@ Architecture: all
 Depends: python3-swh.core,
          python3-swh.model,
          python3-swh.scheduler,
+         git, mercurial, subversion, unzip, pigz
          ${misc:Depends}, ${python3:Depends}
 Description: Software Heritage Googlecode Fetcher
  Module in charge to retrieve googlecode archive's source code before
