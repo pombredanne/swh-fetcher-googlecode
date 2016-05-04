@@ -10,6 +10,7 @@ System requisites: svn, git, hg, unzip, pigz
 
 """
 
+import glob
 import logging
 import os
 import shutil
@@ -41,10 +42,10 @@ def basic_check(archive_path, temp_dir, cmd):
     # all git and hg archives contain one folder with the project name
     cmd = ['unzip', '-q', '-o', archive_path, '-d', temp_dir]
     check_call(cmd)
-    # zip contains a folder named after the project_name (and this is
-    # the repository path)
-    project_name = os.path.basename(os.path.dirname(archive_path))
-    repo_path = os.path.join(temp_dir, project_name)
+    # Retrieve the archive content's first level folder (which cannot
+    # be determined - in majority the name corresponds to the
+    # project's name but not always...)
+    repo_path = glob.glob(temp_dir + '/*')[0]
 
     with utils.cwd(repo_path):
         try:
