@@ -5,6 +5,8 @@
 
 
 import os
+import json
+
 
 
 def compute_destination_folder(path):
@@ -46,3 +48,17 @@ def transform(url_gs):
         'url_project_archive_meta': url_meta,
         'url_project_meta': url_project_meta
     }
+def load_meta(filepath):
+    """Load the metadata from the given filepath (json file).
+       It is assumed that the code is called after checking the file
+       exists.
+
+       Returns:
+           Dictionary of data or None if any problem is encountered.
+
+    """
+    try:
+        with open(filepath, 'r') as f:
+            return json.loads(f.read())
+    except:
+        return None

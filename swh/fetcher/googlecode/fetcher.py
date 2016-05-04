@@ -10,7 +10,7 @@ import requests
 
 from swh.core import config, hashutil
 
-from .utils import transform
+from .utils import transform, load_meta
 from .hashutil import md5_hash, md5_from_b64
 
 
@@ -34,22 +34,9 @@ class SWHGoogleArchiveFetcher(config.SWHConfig):
         l = logging.getLogger('requests.packages.urllib3.connectionpool')
         l.setLevel(logging.WARN)
 
-    def load_meta(self, filepath):
-        """Try and load the metadata from the given filepath.
-           It is assumed that the code is called after checking the file
-           exists.
-
-        """
-        import json
-        try:
-            with open(filepath, 'r') as f:
-                return json.loads(f.read())
-        except:
-            return None
-
     def retrieve_source_meta(self, url_meta, filepath_meta):
         if os.path.exists(filepath_meta):
-            meta = self.load_meta(filepath_meta)
+            meta = load_meta(filepath_meta)
             if meta:  # some meta could be corrupted, so we try to load them
                 return meta
             # and if we fail, we try to fetch them again
