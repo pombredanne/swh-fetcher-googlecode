@@ -130,14 +130,20 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
         meta = utils.load_meta(project_json)
         repo_type = meta[REPO_TYPE_KEY]
 
-        # compute the repo path repository
-        temp_dir = tempfile.mkdtemp(suffix='.swh.fetcher.googlecode',
-                                    prefix='tmp.',
-                                    dir=temp_root_dir)
-
-        self.log.debug('type: %s, archive: %s' % (repo_type, archive_path))
+        extension = os.path.splitext(archive_path)[-1]
+        if repo_type == 'svn' and extension == '.zip':
+            self.log.warn('Skip %s. Only svndump for svn type repository.' %
+                          archive_path)
+            return
 
         try:
+            # compute the repo path repository
+            temp_dir = tempfile.mkdtemp(suffix='.swh.fetcher.googlecode',
+                                        prefix='tmp.',
+                                        dir=temp_root_dir)
+
+            self.log.debug('type: %s, archive: %s' % (repo_type, archive_path))
+
             if check_integrity(repo_type, archive_path, temp_dir):
                 self.log.info('%s SUCCESS' % archive_path)
             else:
