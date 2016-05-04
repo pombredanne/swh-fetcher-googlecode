@@ -128,6 +128,11 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
         project_json = os.path.join(parent_dir, REPO_TYPE_FILENAME)
 
         meta = utils.load_meta(project_json)
+        if not meta:
+            self.log.error('Skip %s. No project.json was detected.' %
+                           archive_path)
+            return
+
         repo_type = meta[REPO_TYPE_KEY]
 
         extension = os.path.splitext(archive_path)[-1]
