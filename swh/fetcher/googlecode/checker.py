@@ -21,6 +21,7 @@ from subprocess import PIPE, Popen, check_call
 from swh.core import config
 
 from . import utils
+from .fetcher import SWHGoogleArchiveFetcher
 
 
 REPO_TYPE_FILENAME = 'project.json'
@@ -147,7 +148,21 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
                           archive_path)
             return
 
+        temp_dir = ''
         try:
+            # check that the file's complete (some small numbers of files
+            # fails because of it)
+            json_meta = utils.load_meta(archive_path + '.json')
+            length = os.path.getsize(archive_path)
+            if length != int(json_meta['size']):  # somehow incomplete
+                r = SWHGoogleArchiveFetcher().retrieve_source(archive_path,
+                                                              json_meta,
+                                                              archive_path)
+                if not r:
+                    self.log.error('%s PROBLEM when fetching archive' %
+                                   archive_path)
+                    return
+
             # compute the repo path repository
             temp_dir = tempfile.mkdtemp(suffix='.swh.fetcher.googlecode',
                                         prefix='tmp.',
@@ -157,9 +172,11 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
 
             if check_integrity(repo_type, archive_path, temp_dir):
                 self.log.info('%s SUCCESS' % archive_path)
-            else:
+            else:  # we'll check that the current file is complete
                 self.log.error('%s FAILURE' % archive_path)
-
+        except Exception as e:
+            self.log.error('%s PROBLEM with archive - %s' %
+                           (archive_path, e))
         finally:
             # cleanup the temporary directory
             if os.path.exists(temp_dir):
