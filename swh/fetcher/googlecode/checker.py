@@ -43,7 +43,7 @@ class SWHGoogleArchiveDispatchChecker(config.SWHConfig):
         self.log = logging.getLogger(
             'swh.fetcher.google.SWHGoogleArchiveDispatchChecker')
 
-    def process(self, archive_path, temp_root_dir):
+    def process(self, archive_path, root_temp_dir):
         """Check the archive path is actually ok.
 
         """
@@ -95,7 +95,7 @@ class SWHGoogleArchiveDispatchChecker(config.SWHConfig):
         else:
             checker = app.tasks['swh.fetcher.googlecode.tasks.SWHGoogleHugeArchiveCheckerTask']  # noqa
 
-        checker.delay(archive_path, repo_type, temp_root_dir)
+        checker.delay(archive_path, repo_type, root_temp_dir)
 
 
 def basic_check(archive_path, temp_dir, cmd):
@@ -188,17 +188,17 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
         self.log = logging.getLogger(
             'swh.fetcher.google.SWHGoogleArchiveChecker')
 
-    def process(self, archive_path, repo_type, temp_root_dir):
+    def process(self, archive_path, repo_type, root_temp_dir):
         """Check the archive path is actually ok.
 
         """
         self.log.info('Check %s\'s metadata' % archive_path)
 
         try:
-            # compute the repo path repository
+            # compute the repo path repository once uncompressed
             temp_dir = tempfile.mkdtemp(suffix='.swh.fetcher.googlecode',
                                         prefix='tmp.',
-                                        dir=temp_root_dir)
+                                        dir=root_temp_dir)
 
             self.log.debug('type: %s, archive: %s' % (repo_type, archive_path))
 
