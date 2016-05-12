@@ -26,6 +26,76 @@ from .fetcher import SWHGoogleArchiveFetcher
 
 REPO_TYPE_FILENAME = 'project.json'
 REPO_TYPE_KEY = 'repoType'
+DEFAULT_SMALL_LENGTH_DISPATCH = 100 * 1024 * 1024  # 100 Mib
+DEFAULT_MEDIUM_LENGTH_DISPATCH = 500 * 1024 * 1024  # 500 Mib
+
+
+class SWHGoogleArchiveDispatchChecker(config.SWHConfig):
+    """A google archive 'integrity' checker.
+
+    This checker will:
+    - check the archive's length
+    - if not ok, refetch the archive
+ .  - Depending on the archive's length, dispatch to other checker
+
+    """
+    def __init__(self):
+        self.log = logging.getLogger(
+            'swh.fetcher.google.SWHGoogleArchiveDispatchChecker')
+
+    def process(self, archive_path, temp_root_dir):
+        """Check the archive path is actually ok.
+
+        """
+        self.log.info('Check %s\'s metadata' % archive_path)
+
+        extension = os.path.splitext(archive_path)[-1]
+        if extension != '.gz' and extension != '.zip':
+            self.log.warn('Skip %s. Only zip or gz extension files.' %
+                          archive_path)
+            return
+
+        parent_dir = os.path.dirname(archive_path)
+        # contains the repoType field
+        project_json = os.path.join(parent_dir, REPO_TYPE_FILENAME)
+
+        meta = utils.load_meta(project_json)
+        if not meta:
+            self.log.error('Skip %s. No project.json was detected.' %
+                           archive_path)
+            return
+
+        repo_type = meta[REPO_TYPE_KEY]
+
+        if repo_type == 'svn' and extension == '.zip':
+            self.log.warn('Skip %s. Only svndump for svn type repository.' %
+                          archive_path)
+            return
+
+        # check that the file's complete (some small numbers of files
+        # fails because of it)
+        json_meta = utils.load_meta(archive_path + '.json')
+        length = os.path.getsize(archive_path)
+        if length != int(json_meta['size']):  # somehow incomplete
+            r = SWHGoogleArchiveFetcher().retrieve_source(archive_path,
+                                                          json_meta,
+                                                          archive_path)
+            if not r:
+                self.log.error('%s PROBLEM when fetching archive' %
+                               archive_path)
+                return
+
+        from swh.scheduler.celery_backend.config import app
+        from . import tasks  # noqa
+
+        if length < DEFAULT_SMALL_LENGTH_DISPATCH:
+            checker = app.tasks['swh.fetcher.googlecode.tasks.SWHGoogleSmallArchiveCheckerTask']  # noqa
+        elif length < DEFAULT_MEDIUM_LENGTH_DISPATCH:
+            checker = app.tasks['swh.fetcher.googlecode.tasks.SWHGoogleMediumArchiveCheckerTask']  # noqa
+        else:
+            checker = app.tasks['swh.fetcher.googlecode.tasks.SWHGoogleHugeArchiveCheckerTask']  # noqa
+
+        checker.delay(archive_path, repo_type, temp_root_dir)
 
 
 def basic_check(archive_path, temp_dir, cmd):
@@ -114,55 +184,17 @@ class SWHGoogleArchiveChecker(config.SWHConfig):
       - hg:  `hg verify`
 
     """
-
     def __init__(self):
         self.log = logging.getLogger(
             'swh.fetcher.google.SWHGoogleArchiveChecker')
 
-    def process(self, archive_path, temp_root_dir):
+    def process(self, archive_path, repo_type, temp_root_dir):
         """Check the archive path is actually ok.
 
         """
         self.log.info('Check %s\'s metadata' % archive_path)
 
-        extension = os.path.splitext(archive_path)[-1]
-        if extension != '.gz' and extension != '.zip':
-            self.log.warn('Skip %s. Only zip or gz extension files.' %
-                          archive_path)
-            return
-
-        parent_dir = os.path.dirname(archive_path)
-        # contains the repoType field
-        project_json = os.path.join(parent_dir, REPO_TYPE_FILENAME)
-
-        meta = utils.load_meta(project_json)
-        if not meta:
-            self.log.error('Skip %s. No project.json was detected.' %
-                           archive_path)
-            return
-
-        repo_type = meta[REPO_TYPE_KEY]
-
-        if repo_type == 'svn' and extension == '.zip':
-            self.log.warn('Skip %s. Only svndump for svn type repository.' %
-                          archive_path)
-            return
-
-        temp_dir = ''
         try:
-            # check that the file's complete (some small numbers of files
-            # fails because of it)
-            json_meta = utils.load_meta(archive_path + '.json')
-            length = os.path.getsize(archive_path)
-            if length != int(json_meta['size']):  # somehow incomplete
-                r = SWHGoogleArchiveFetcher().retrieve_source(archive_path,
-                                                              json_meta,
-                                                              archive_path)
-                if not r:
-                    self.log.error('%s PROBLEM when fetching archive' %
-                                   archive_path)
-                    return
-
             # compute the repo path repository
             temp_dir = tempfile.mkdtemp(suffix='.swh.fetcher.googlecode',
                                         prefix='tmp.',
