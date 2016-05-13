@@ -24,7 +24,9 @@ class SWHGoogleArchiveFetcherTask(Task):
         SWHGoogleArchiveFetcher().process(archive_gs, destination_rootpath)
 
 
-class SWHGoogleArchiveDispatchCheckerTask(Task):
+# FIXME: It's a dispatch (keep the old name for production reason for
+# now)
+class SWHGoogleArchiveCheckerTask(Task):
     """Main task to check fetched archive files from google code archive
        server.
 
@@ -43,7 +45,7 @@ class SWHGoogleArchiveDispatchCheckerTask(Task):
         SWHGoogleArchiveDispatchChecker().process(path, root_temp_dir)
 
 
-class SWHGoogleArchiveCheckerTask(Task):
+class AbstractSWHGoogleArchiveCheckerTask(Task):
     """Main task to check huge fetched archive files from google code
     archive server.
 
@@ -67,13 +69,13 @@ class SWHGoogleArchiveCheckerTask(Task):
             root_temp_dir)
 
 
-class SWHGoogleSmallArchiveCheckerTask(SWHGoogleArchiveCheckerTask):
+class SWHGoogleSmallArchiveCheckerTask(AbstractSWHGoogleArchiveCheckerTask):
     task_queue = 'swh_fetcher_googlecode_check_small_archive'
 
 
-class SWHGoogleMediumArchiveCheckerTask(SWHGoogleArchiveCheckerTask):
+class SWHGoogleMediumArchiveCheckerTask(AbstractSWHGoogleArchiveCheckerTask):
     task_queue = 'swh_fetcher_googlecode_check_medium_archive'
 
 
-class SWHGoogleHugeArchiveCheckerTask(SWHGoogleArchiveCheckerTask):
+class SWHGoogleHugeArchiveCheckerTask(AbstractSWHGoogleArchiveCheckerTask):
     task_queue = 'swh_fetcher_googlecode_check_huge_archive'
