@@ -7,7 +7,7 @@ import click
 import sys
 
 
-task_name = 'swh.fetcher.googlecode.tasks.SWHGoogleArchiveCheckerTask'
+task_name = 'swh.fetcher.googlecode.tasks.SWHGoogleArchiveDispatchCheckerTask'
 
 
 @click.command()
