@@ -26,8 +26,8 @@ from .fetcher import SWHGoogleArchiveFetcher
 
 REPO_TYPE_FILENAME = 'project.json'
 REPO_TYPE_KEY = 'repoType'
-DEFAULT_SMALL_LENGTH_DISPATCH = 100 * 1024 * 1024  # 100 Mib
-DEFAULT_MEDIUM_LENGTH_DISPATCH = 500 * 1024 * 1024  # 500 Mib
+DEFAULT_SMALL_LENGTH_DISPATCH = 50 * 1024 * 1024  # 50 Mib
+DEFAULT_MEDIUM_LENGTH_DISPATCH = 200 * 1024 * 1024  # 200 Mib
 
 
 class SWHGoogleArchiveDispatchChecker(config.SWHConfig):
