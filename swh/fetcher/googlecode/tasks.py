@@ -37,7 +37,7 @@ class SWHGoogleArchiveDispatchCheckerTask(Task):
        - integrity check according to repo's nature (git, hg, svn)
 
     """
-    task_queue = 'swh_fetcher_googlecode_check_archive'
+    task_queue = 'swh_fetcher_googlecode_dispatch_check_archive'
 
     def run(self, path, root_temp_dir):
         SWHGoogleArchiveDispatchChecker().process(path, root_temp_dir)
